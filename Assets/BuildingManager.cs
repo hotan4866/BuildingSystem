@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuildingManager: MonoBehaviour
+public class BuildingManager : MonoBehaviour
 {
     // 오브젝트 리스트
     public GameObject[] objects;
@@ -17,7 +17,7 @@ public class BuildingManager: MonoBehaviour
     [SerializeField] private LayerMask layerMask;
 
     // 소환된 오브젝트
-    private GameObject pendingObject;
+    public GameObject pendingObject;
 
     /// <summary>
     /// ////////////////////////////////
@@ -30,7 +30,7 @@ public class BuildingManager: MonoBehaviour
     public bool gridOn = true;
     [SerializeField] private Toggle gridToggle;
 
-    
+
     /// ////////////////////////////////
     // 회전 시작
     ////////////////////////////////////
@@ -38,22 +38,16 @@ public class BuildingManager: MonoBehaviour
 
     public float rotateAmount;
 
+    /// ////////////////////////////////
+    // 배치
+    ////////////////////////////////////
+    //
 
-
-    /*
+    // 배치가 가능한 상태인지 확인
+    public bool canPlace = true;
 
     // 오브젝트 머티리얼 변경 위해 
     [SerializeField] private Material[] materials;
-
-
-
-    public float gridSize;
-
-
-    // 배치가 가능한 상태인지 확인
-    public bool canPlace; 
-
-    */
 
     private void FixedUpdate()
     {
@@ -69,7 +63,7 @@ public class BuildingManager: MonoBehaviour
     }
 
     public void SelectObject(int index)
-    { 
+    {
 
         pendingObject = Instantiate(objects[index], pos, transform.rotation);
     }
@@ -87,16 +81,19 @@ public class BuildingManager: MonoBehaviour
             }
             else { pendingObject.transform.position = pos; }
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && canPlace)
             {
                 PlaceObject();
             }
+
+            UpdateMaterials();
         }
 
         if (Input.GetKeyDown(KeyCode.R))
         {
             RotateObject();
         }
+
     }
 
     private void RotateObject()
@@ -106,6 +103,7 @@ public class BuildingManager: MonoBehaviour
 
     public void PlaceObject()
     {
+        pendingObject.GetComponent<MeshRenderer>().material = materials[2];
         pendingObject = null;
     }
 
@@ -132,6 +130,23 @@ public class BuildingManager: MonoBehaviour
         }
 
         return pos;
+    }
+
+
+
+    private void UpdateMaterials()
+    {
+       
+        if (pendingObject == null) return;
+        if (pendingObject.GetComponent<MeshRenderer>() == null) return;
+
+        if (canPlace) 
+            pendingObject.GetComponent<MeshRenderer>().material = materials[0];
+        else
+        {
+            pendingObject.GetComponent<MeshRenderer>().material = materials[1];
+        }
+
     }
 
     /*

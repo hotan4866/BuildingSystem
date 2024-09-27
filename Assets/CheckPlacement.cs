@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CheckPlacement : MonoBehaviour
 {
-    BuildingManager buildingManager;
+    public BuildingManager buildingManager;
 
     private void Start()
     {
@@ -18,7 +18,7 @@ public class CheckPlacement : MonoBehaviour
         if (other.gameObject.CompareTag("Object"))
         {
             // 배치 할수 없도록 변경
-            //buildingManager.canPlace = false;
+            buildingManager.canPlace = false;
         }
     }
 
@@ -29,7 +29,7 @@ public class CheckPlacement : MonoBehaviour
         if (other.gameObject.CompareTag("Object"))
         {
             // 배치 할 수 있도록
-            //buildingManager.canPlace = true;
+            buildingManager.canPlace = true;
         }
     }
 
