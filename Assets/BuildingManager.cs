@@ -19,8 +19,19 @@ public class BuildingManager: MonoBehaviour
     // 소환된 오브젝트
     private GameObject pendingObject;
 
-    /*
+    /// <summary>
+    /// ////////////////////////////////
+    /// </summary>
+    // 그리드 시작
+    ////////////////////////////////////
+    //
 
+    public float gridSize;
+    public bool gridOn = true;
+    [SerializeField] private Toggle gridToggle;
+
+
+    /*
 
     // 오브젝트 머티리얼 변경 위해 
     [SerializeField] private Material[] materials;
@@ -30,12 +41,10 @@ public class BuildingManager: MonoBehaviour
     public float rotateAmount;
     public float gridSize;
 
-    bool gridOn = true;
 
     // 배치가 가능한 상태인지 확인
     public bool canPlace; 
 
-    [SerializeField] private Toggle gridToggle;
     */
 
     private void FixedUpdate()
@@ -50,6 +59,7 @@ public class BuildingManager: MonoBehaviour
             pos = hit.point;
         }
     }
+
     public void SelectObject(int index)
     { 
 
@@ -59,8 +69,15 @@ public class BuildingManager: MonoBehaviour
     public void Update()
     {
         if (pendingObject != null)
-        { 
-            pendingObject.transform.position = pos;
+        {
+            if (gridOn)
+            {
+                pendingObject.transform.position = new Vector3(
+                        RoundToNearestGrid(pos.x),
+                        RoundToNearestGrid(pos.y),
+                        RoundToNearestGrid(pos.z));
+            }
+            else { pendingObject.transform.position = pos; }
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -72,6 +89,31 @@ public class BuildingManager: MonoBehaviour
     public void PlaceObject()
     {
         pendingObject = null;
+    }
+
+    public void ToggleGrid()
+    {
+        if (gridToggle.isOn)
+        {
+            gridOn = true;
+        }
+        else { gridOn = false; }
+    }
+
+    // 
+    private float RoundToNearestGrid(float pos)
+    {
+        // 0.5로 나눈 나머지로 그리드함
+        float xDiff = pos % gridSize;
+
+        pos -= xDiff;
+
+        if (xDiff > (gridSize / 2))
+        {
+            pos += gridSize;
+        }
+
+        return pos;
     }
 
     /*
@@ -135,16 +177,5 @@ public class BuildingManager: MonoBehaviour
 
 
 
-    private float RoundToNearestGrid(float pos)
-    {
-        float xDiff = pos % gridSize;
-        pos -= xDiff;
-        if (xDiff > (gridSize / 2))
-        {
-            pos += gridSize;
-        }
-
-        return pos;
-    }
     */
 }
