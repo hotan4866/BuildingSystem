@@ -383,7 +383,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   gridSize: 0.5
+  gridOn: 1
   gridToggle: {fileID: 834139026}
+  rotateAmount: 45
 --- !u!1 &276431037
 GameObject:
   m_ObjectHideFlags: 0

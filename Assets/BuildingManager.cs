@@ -30,6 +30,15 @@ public class BuildingManager: MonoBehaviour
     public bool gridOn = true;
     [SerializeField] private Toggle gridToggle;
 
+    
+    /// ////////////////////////////////
+    // 회전 시작
+    ////////////////////////////////////
+    //
+
+    public float rotateAmount;
+
+
 
     /*
 
@@ -38,7 +47,6 @@ public class BuildingManager: MonoBehaviour
 
 
 
-    public float rotateAmount;
     public float gridSize;
 
 
@@ -84,6 +92,16 @@ public class BuildingManager: MonoBehaviour
                 PlaceObject();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            RotateObject();
+        }
+    }
+
+    private void RotateObject()
+    {
+        pendingObject.transform.Rotate(Vector3.up, rotateAmount);
     }
 
     public void PlaceObject()
