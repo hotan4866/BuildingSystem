@@ -1,0 +1,10 @@
+﻿.vs
+Assets/TextMesh Pro
+Library
+Temp
+Logs
+obj
+UserSettings
+.vsconfig
+Assembly-CSharp.csproj
+MouseBuildingSystem.sln
